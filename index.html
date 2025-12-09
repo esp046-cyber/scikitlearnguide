@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scikit-Learn Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5793a 0%, #a95aa1 50%, #0f2862 100%);
+            color: #2c3e50;
+            padding: 1%;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #f5793a, #a95aa1);
+            color: white;
+            padding: 12px 1%;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            background: #0f2862;
+            padding: 0 1%;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            background: none;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        
+        .tab.active {
+            background: #f5793a;
+        }
+        
+        .content {
+            padding: 1%;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            color: #f5793a;
+            font-size: 1em;
+            margin: 15px 0 8px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #a95aa1;
+        }
+        
+        h3 {
+            color: #a95aa1;
+            font-size: 0.95em;
+            margin: 12px 0 6px 0;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #0f2862;
+            font-size: 0.85em;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.8em;
+            border-left: 4px solid #f5793a;
+        }
+        
+        pre code {
+            background: none;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #f5793a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        
+        .note {
+            background: #e7f3ff;
+            border-left: 4px solid #a95aa1;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        
+        ul, ol {
+            margin: 8px 0 8px 20px;
+            font-size: 0.9em;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .example {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Scikit-Learn Programming Guide</h1>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('intro')">Intro</button>
+            <button class="tab" onclick="showSection('setup')">Setup</button>
+            <button class="tab" onclick="showSection('basics')">Basics</button>
+            <button class="tab" onclick="showSection('supervised')">Supervised</button>
+            <button class="tab" onclick="showSection('unsupervised')">Unsupervised</button>
+            <button class="tab" onclick="showSection('preprocessing')">Preprocessing</button>
+            <button class="tab" onclick="showSection('evaluation')">Evaluation</button>
+            <button class="tab" onclick="showSection('examples')">Examples</button>
+            <button class="tab" onclick="showSection('advanced')">Advanced</button>
+            <button class="tab" onclick="showSection('debugging')">Debug</button>
+            <button class="tab" onclick="showSection('tips')">Tips</button>
+        </div>
+        
+        <div class="content">
+            <div id="intro" class="section active">
+                <h2>What is Scikit-Learn?</h2>
+                <p>Scikit-learn is a powerful, open-source machine learning library for Python. It provides simple and efficient tools for data analysis and modeling.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Simple and consistent API</li>
+                    <li>Wide range of algorithms for classification, regression, clustering</li>
+                    <li>Tools for model evaluation and selection</li>
+                    <li>Data preprocessing utilities</li>
+                    <li>Built on NumPy, SciPy, and matplotlib</li>
+                    <li>Extensive documentation with examples</li>
+                    <li>Active community and regular updates</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Perfect For:</strong> Beginners learning ML, prototyping models, production systems, data science competitions, and academic research.
+                </div>
+                
+                <h3>Main Components</h3>
+                <ul>
+                    <li><strong>Estimators:</strong> Models that learn from data (fit method)</li>
+                    <li><strong>Transformers:</strong> Modify data (transform method)</li>
+                    <li><strong>Predictors:</strong> Make predictions (predict method)</li>
+                    <li><strong>Pipelines:</strong> Chain multiple steps together</li>
+                    <li><strong>Meta-estimators:</strong> Wrap other estimators (e.g., GridSearchCV)</li>
+                </ul>
+                
+                <h3>When to Use Scikit-Learn</h3>
+                <ul>
+                    <li>✅ Structured/tabular data (CSV, databases)</li>
+                    <li>✅ Classical ML algorithms (not deep learning)</li>
+                    <li>✅ Small to medium datasets (fits in memory)</li>
+                    <li>✅ Quick prototyping and experimentation</li>
+                    <li>❌ Deep learning (use TensorFlow/PyTorch instead)</li>
+                    <li>❌ Reinforcement learning</li>
+                    <li>❌ Datasets larger than memory (use Dask-ML)</li>
+                </ul>
+            </div>
+            
+            <div id="setup" class="section">
+                <h2>Installation & Setup</h2>
+                
+                <h3>Step 1: Install Scikit-Learn</h3>
+                <pre><code># Using pip (recommended)
+pip install scikit-learn
+
+# Using conda (if you use Anaconda)
+conda install scikit-learn
+
+# Install specific version
+pip install scikit-learn==1.3.0</code></pre>
+                
+                <h3>Step 2: Install Dependencies</h3>
+                <pre><code># Install all required packages at once
+pip install numpy pandas matplotlib scipy scikit-learn
+
+# Or install separately
+pip install numpy      # For numerical operations
+pip install pandas     # For data manipulation
+pip install matplotlib # For plotting
+pip install scipy      # For scientific computing</code></pre>
+                
+                <div class="note">
+                    <strong>📝 Note:</strong> Scikit-learn requires Python 3.8 or higher. Check your Python version with <code>python --version</code>
+                </div>
+                
+                <h3>Step 3: Verify Installation</h3>
+                <pre><code># Open Python interpreter or Jupyter notebook
+# Then run these commands step by step:
+
+# Check scikit-learn version
+import sklearn
+print(f"Scikit-learn version: {sklearn.__version__}")
+
+# Check available modules
+from sklearn import datasets, linear_model, metrics
+print("All modules imported successfully!")
+
+# Quick functionality test
+from sklearn.datasets import load_iris
+iris = load_iris()
+print(f"Loaded {len(iris.data)} samples")
+print("✅ Installation verified!")</code></pre>
+                
+                <h3>Step 4: Setup Your Project Structure</h3>
+                <pre><code># Recommended project structure:
+my_ml_project/
+│
+├── data/              # Store your datasets here
+├── notebooks/         # Jupyter notebooks for exploration
+├── models/            # Save trained models here
+├── src/               # Python scripts
+│   ├── train.py
+│   └── predict.py
+└── requirements.txt   # List of dependencies</code></pre>
+                
+                <h3>Step 5: Basic Imports Template</h3>
+                <pre><code># Copy this template to start any ML project
+
+# Step 5.1: Import core libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 5.2: Import scikit-learn modules
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+
+# Step 5.3: Set random seed for reproducibility
+np.random.seed(42)
+
+# Step 5.4: Configure display options
+pd.set_option('display.max_columns', None)
+plt.style.use('ggplot')</code></pre>
+                
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Always create a virtual environment for your projects to avoid dependency conflicts:
+                    <pre><code># Create virtual environment
+python -m venv ml_env
+
+# Activate it
+# On Windows: ml_env\Scripts\activate
+# On Mac/Linux: source ml_env/bin/activate
+
+# Then install packages
+pip install scikit-learn numpy pandas matplotlib</code></pre>
+                </div>
+                
+                <h3>Troubleshooting Common Issues</h3>
+                <ul>
+                    <li><strong>ImportError:</strong> Make sure you installed scikit-learn, not sklearn (old package)</li>
+                    <li><strong>Version conflicts:</strong> Use virtual environments to isolate projects</li>
+                    <li><strong>Memory errors:</strong> Start with small datasets, upgrade RAM if needed</li>
+                    <li><strong>Slow installation:</strong> Try using conda instead of pip</li>
+                </ul>
+            </div>
+            
+            <div id="basics" class="section">
+                <h2>Core Concepts - Step by Step</h2>
+                
+                <h3>The Estimator API (4-Step Pattern)</h3>
+                <p>Every scikit-learn model follows the same pattern. Learn this once, use it everywhere!</p>
+                
+                <pre><code># STEP 1: Import the model class
+from sklearn.linear_model import LinearRegression
+
+# STEP 2: Create an instance (object) of the model
+model = LinearRegression()
+
+# STEP 3: Train (fit) the model on your data
+model.fit(X_train, y_train)
+
+# STEP 4: Make predictions on new data
+predictions = model.predict(X_test)</code></pre>
+                
+                <div class="tip">
+                    <strong>💡 Memory Aid:</strong> Import → Create → Fit → Predict (ICFP)
+                </div>
+                
+                <h3>Complete Beginner Example - Follow Each Step</h3>
+                <div class="example">
+                    <pre><code># STEP 1: Import everything we need
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# STEP 2: Load the dataset
+iris = load_iris()
+X = iris.data  # Features (measurements)
+y = iris.target  # Labels (species)
+
+print(f"Dataset shape: {X.shape}")  # (150, 4)
+print(f"Number of classes: {len(set(y))}")  # 3 species
+
+# STEP 3: Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, 
+    test_size=0.3,  # 30% for testing
+    random_state=42  # For reproducibility
+)
+
+print(f"Training samples: {len(X_train)}")  # 105
+print(f"Testing samples: {len(X_test)}")    # 45
+
+# STEP 4: Create the model
+clf = DecisionTreeClassifier(
+    max_depth=3,  # Limit tree depth
+    random_state=42  # For reproducibility
+)
+
+# STEP 5: Train the model
+clf.fit(X_train, y_train)
+print("Model trained successfully!")
+
+# STEP 6: Make predictions
+y_pred = clf.predict(X_test)
+
+# STEP 7: Evaluate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2%}")  # e.g., 95.56%
+
+# STEP 8: Predict a single new sample
+new_sample = [[5.1, 3.5, 1.4, 0.2]]
+prediction = clf.predict(new_sample)
+print(f"Predicted class: {prediction[0]}")</code></pre>
+                </div>
+                
+                <h3>Loading Sample Datasets - Step by Step</h3>
+                <pre><code># STEP 1: Import datasets module
+from sklearn import datasets
+
+# STEP 2a: Load iris dataset (classification)
+iris = datasets.load_iris()
+X = iris.data      # Features
+y = iris.target    # Labels
+print(f"Features: {iris.feature_names}")
+print(f"Classes: {iris.target_names}")
+
+# STEP 2b: Load diabetes dataset (regression)
+diabetes = datasets.load_diabetes()
+X = diabetes.data
+y = diabetes.target
+print(f"Number of features: {X.shape[1]}")
+
+# STEP 3: Generate synthetic data
+from sklearn.datasets import make_classification
+
+X, y = make_classification(
+    n_samples=1000,     # Number of samples
+    n_features=20,      # Number of features
+    n_informative=15,   # Useful features
+    n_redundant=5,      # Redundant features
+    n_classes=2,        # Binary classification
+    random_state=42
+)
+print(f"Generated {len(X)} samples")</code></pre>
+                
+                <h3>Train-Test Split - Detailed Guide</h3>
+                <pre><code># STEP 1: Import the function
+from sklearn.model_selection import train_test_split
+
+# STEP 2: Basic split (80% train, 20% test)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, 
+    test_size=0.2,      # 20% for testing
+    random_state=42     # Same split every time
+)
+
+# STEP 3: Check the sizes
+print(f"Training set: {len(X_train)} samples")
+print(f"Testing set: {len(X_test)} samples")
+print(f"Split ratio: {len(X_train)/len(X):.1%} train")
+
+# STEP 4: Stratified split (keeps class distribution)
+# Use this for imbalanced datasets!
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, 
+    test_size=0.2,
+    stratify=y,         # Maintain class proportions
+    random_state=42
+)
+
+# Verify stratification
+from collections import Counter
+print("Train distribution:", Counter(y_train))
+print("Test distribution:", Counter(y_test))</code></pre>
+                
+                <div class="note">
+                    <strong>📝 Why Split Data?</strong> We test on unseen data to check if the model generalizes well. Training and testing on the same data would give falsely high accuracy!
+                </div>
+                
+                <h3>Understanding Model Parameters</h3>
+                <pre><code># Parameters are set BEFORE training (hyperparameters)
+model = DecisionTreeClassifier(
+    max_depth=5,           # Maximum tree depth
+    min_samples_split=10,  # Minimum samples to split
+    random_state=42        # For reproducibility
+)
+
+# Attributes are learned DURING training (have _ suffix)
+model.fit(X_train, y_train)
+
+# Access learned attributes (after fitting)
+print(f"Tree depth: {model.tree_.max_depth}")
+print(f"Number of leaves: {model.tree_.n_leaves}")
+print(f"Feature importances: {model.feature_importances_}")</code></pre>
+                
+                <h3>Common Beginner Mistakes to Avoid</h3>
+                <ul>
+                    <li>❌ Fitting on test data → Always fit only on training data</li>
+                    <li>❌ Not setting random_state → Results won't be reproducible</li>
+                    <li>❌ Using same data for train and test → Overfitting</li>
+                    <li>❌ Forgetting to scale features → Many algorithms need this</li>
+                    <li>❌ Not checking data shape → Errors with wrong dimensions</li>
+                </ul>
+            </div>
+            
+            <div id="supervised" class="section">
+                <h2>Supervised Learning - Step by Step</h2>
+                
+                <h3>What is Supervised Learning?</h3>
+                <p>Learning from labeled data where we know the correct answers. Like learning with a teacher who tells you if you're right or wrong.</p>
+                <ul>
+                    <li><strong>Classification:</strong> Predicting categories (spam/not spam, cat/dog)</li>
+                    <li><strong>Regression:</strong> Predicting numbers (house price, temperature)</li>
+                </ul>
+                
+                <h2>Classification Algorithms</h2>
+                
+                <h3>1. Logistic Regression - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> Binary classification, baseline model, when you need probability scores
+                </div>
+                <pre><code># STEP 1: Import the model
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# STEP 2: Load and split data
+data = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.2, random_state=42
+)
+
+# STEP 3: Create the model
+model = LogisticRegression(
+    max_iter=1000,      # Maximum iterations
+    random_state=42
+)
+
+# STEP 4: Train the model
+model.fit(X_train, y_train)
+print("✅ Model trained!")
+
+# STEP 5: Make predictions
+predictions = model.predict(X_test)
+
+# STEP 6: Get probability scores (useful!)
+probabilities = model.predict_proba(X_test)
+print(f"Probability for first sample: {probabilities[0]}")
+
+# STEP 7: Evaluate
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy:.2%}")</code></pre>
+                
+                <h3>2. Decision Trees - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> When you need interpretable results, non-linear patterns
+                </div>
+                <pre><code># STEP 1: Import
+from sklearn.tree import DecisionTreeClassifier
+
+# STEP 2: Create model with parameters
+model = DecisionTreeClassifier(
+    max_depth=5,              # Prevent overfitting
+    min_samples_split=20,     # Min samples to split node
+    min_samples_leaf=10,      # Min samples in leaf
+    random_state=42
+)
+
+# STEP 3: Train
+model.fit(X_train, y_train)
+
+# STEP 4: Predict
+predictions = model.predict(X_test)
+
+# STEP 5: Check feature importance
+importances = model.feature_importances_
+for i, imp in enumerate(importances):
+    print(f"Feature {i}: {imp:.4f}")
+    
+# STEP 6: Visualize tree (optional)
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(20,10))
+plot_tree(model, filled=True, feature_names=data.feature_names)
+plt.show()</code></pre>
+                
+                <h3>3. Random Forest - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> Most accurate out-of-the-box, handles large datasets well
+                </div>
+                <pre><code># STEP 1: Import
+from sklearn.ensemble import RandomForestClassifier
+
+# STEP 2: Create model
+# Random Forest = Many decision trees voting together
+model = RandomForestClassifier(
+    n_estimators=100,      # Number of trees
+    max_depth=10,          # Max depth of each tree
+    min_samples_split=5,   # Min samples to split
+    random_state=42,
+    n_jobs=-1              # Use all CPU cores
+)
+
+# STEP 3: Train (takes longer than single tree)
+print("Training... (may take a moment)")
+model.fit(X_train, y_train)
+print("✅ Training complete!")
+
+# STEP 4: Predict
+predictions = model.predict(X_test)
+
+# STEP 5: Feature importance (averaged across all trees)
+importances = model.feature_importances_
+feature_importance_dict = dict(zip(
+    data.feature_names, importances
+))
+print("Top 3 important features:")
+for name, imp in sorted(
+    feature_importance_dict.items(), 
+    key=lambda x: x[1], 
+    reverse=True
+)[:3]:
+    print(f"  {name}: {imp:.4f}")
+
+# STEP 6: Evaluate
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy:.2%}")</code></pre>
+                
+                <h3>4. Support Vector Machines (SVM) - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> High-dimensional data, when you have clear margin of separation
+                </div>
+                <pre><code># STEP 1: Import
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+
+# STEP 2: IMPORTANT - Scale data first!
+# SVM is sensitive to feature scales
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# STEP 3: Create model
+model = SVC(
+    kernel='rbf',      # Radial basis function
+    C=1.0,             # Regularization (higher = stricter)
+    gamma='scale',     # Kernel coefficient
+    random_state=42
+)
+
+# STEP 4: Train on SCALED data
+model.fit(X_train_scaled, y_train)
+
+# STEP 5: Predict on SCALED test data
+predictions = model.predict(X_test_scaled)
+
+# STEP 6: Evaluate
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy:.2%}")</code></pre>
+                
+                <h3>5. K-Nearest Neighbors (KNN) - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> Small datasets, simple baseline, when similar items have similar labels
+                </div>
+                <pre><code># STEP 1: Import
+from sklearn.neighbors import KNeighborsClassifier
+
+# STEP 2: Scale data (KNN uses distance, so scaling matters!)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# STEP 3: Create model
+model = KNeighborsClassifier(
+    n_neighbors=5,       # Number of neighbors to consider
+    weights='distance',  # Closer neighbors = more weight
+    metric='euclidean'   # Distance metric
+)
+
+# STEP 4: Train (KNN just memorizes data!)
+model.fit(X_train_scaled, y_train)
+
+# STEP 5: Predict
+predictions = model.predict(X_test_scaled)
+
+# STEP 6: Evaluate
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy:.2%}")</code></pre>
+                
+                <h2>Regression Algorithms</h2>
+                
+                <h3>1. Linear Regression - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> Linear relationships, baseline for regression, interpretable results
+                </div>
+                <pre><code># STEP 1: Import
+from sklearn.linear_model import LinearRegression
+from sklearn.datasets import load_diabetes
+from sklearn.metrics import mean_squared_error, r2_score
+
+# STEP 2: Load regression dataset
+data = load_diabetes()
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.2, random_state=42
+)
+
+# STEP 3: Create model
+model = LinearRegression()
+
+# STEP 4: Train
+model.fit(X_train, y_train)
+
+# STEP 5: Check the learned parameters
+print(f"Coefficients: {model.coef_}")
+print(f"Intercept: {model.intercept_}")
+
+# STEP 6: Make predictions
+predictions = model.predict(X_test)
+
+# STEP 7: Evaluate
+mse = mean_squared_error(y_test, predictions)
+rmse = mean_squared_error(y_test, predictions, squared=False)
+r2 = r2_score(y_test, predictions)
+
+print(f"RMSE: {rmse:.2f}")
+print(f"R² Score: {r2:.2f} (1.0 = perfect)")
+
+# STEP 8: Predict a single value
+new_sample = X_test[0].reshape(1, -1)
+prediction = model.predict(new_sample)
+print(f"Prediction: {prediction[0]:.2f}")
+print(f"Actual: {y_test[0]:.2f}")</code></pre>
+                
+                <h3>2. Ridge & Lasso Regression - Step by Step</h3>
+                <div class="note">
+                    <strong>📝 Best For:</strong> Preventing overfitting, handling multicollinearity, feature selection (Lasso)
+                </div>
+                <pre><code># STEP 1: Import both
+from sklearn.linear_model import Ridge, Lasso
+
+# STEP 2: Ridge Regression (L2 regularization)
+# Shrinks coefficients but keeps all features
+ridge = Ridge(
+    alpha=1.0,      # Regularization strength (higher = more penalty)
+    random_state=42
+)
+ridge.fit(X_train, y_train)
+ridge_pred = ridge.predict(X_test)
+ridge_r2 = r2_score(y_test, ridge_pred)
+print(f"Ridge R² Score: {ridge_r2:.4f}")
+
+# STEP 3: Lasso Regression (L1 regularization)
+# Can set some coefficients to exactly zero (feature selection!)
+lasso = Lasso(
+    alpha=0.1,      # Lower alpha for Lasso
+    random_state=42
+)
+lasso.fit(X_train, y_train)
+lasso_pred = lasso.predict(X_test)
+lasso_r2 = r2_score(y_test, lasso_pred)
+print(f"Lasso R² Score: {lasso_r2:.4f}")
+
+# STEP 4: Check which features Lasso kept
+non_zero_features = sum(lasso.coef_ != 0)
+print(f"Lasso kept {non_zero_features} out of {len(lasso.coef_)} features")</code></pre>
+                
+                <h3>Choosing the Right Algorithm</h3>
+                <div class="tip">
+                    <strong>Quick Decision Guide:</strong>
+                    <ul>
+                        <li>Start simple? → Logistic Regression or Linear Regression</li>
+                        <li>Need accuracy? → Random Forest or Gradient Boosting</li>
+                        <li>Need interpretability? → Decision Tree or Linear models</li>
+                        <li>Small dataset? → KNN or SVM</li>
+                        <li>Large dataset? → Random Forest or Linear models</li>
+                        <li>High dimensions? → SVM or regularized regression</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="unsupervised" class="section">
+                <h2>Unsupervised Learning - Complete Guide</h2>
+                
+                <h3>What is Unsupervised Learning?</h3>
+                <p>Learning from data without labels. The algorithm finds patterns, groups, or structure in the data by itself.</p>
+                <ul>
+                    <li><strong>Clustering:</strong> Grouping similar items together</li>
+                    <li><strong>Dimensionality Reduction:</strong> Reducing number of features while keeping information</li>
+                    <li><strong>Anomaly Detection:</strong> Finding unusual patterns</li>
+                </ul>
+                
+                <h2>1. K-Means Clustering - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> You know how many groups to expect, clusters are roughly spherical
+                </div>
+                
+                <pre><code># STEP 1: Import KMeans and create sample data
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+import numpy as np
+
+# STEP 2: Create synthetic data with 3 clusters
+X, true_labels = make_blobs(
+    n_samples=300, 
+    centers=3,           # 3 true clusters
+    n_features=2,        # 2D for easy visualization
+    random_state=42
+)
+print(f"Data shape: {X.shape}")  # 300 samples, 2 features
+
+# STEP 3: Create K-Means model
+kmeans = KMeans(
+    n_clusters=3,        # Number of clusters
+    init='k-means++',    # Smart initialization (default)
+    n_init=10,          # Number of times to run with different seeds
+    max_iter=300,       # Maximum iterations
+    random_state=42
+)
+
+# STEP 4: Fit the model (find clusters)
+print("\nFinding clusters...")
+kmeans.fit(X)
+print("✅ Clustering complete!")
+
+# STEP 5: Get cluster assignments for each point
+labels = kmeans.labels_
+print(f"\nCluster labels: {labels[:10]}")  # First 10 labels
+
+# STEP 6: Get cluster centers
+centers = kmeans.cluster_centers_
+print(f"\nCluster centers:\n{centers}")
+
+# STEP 7: Check model performance
+inertia = kmeans.inertia_  # Sum of squared distances to nearest center
+print(f"\nInertia (lower is better): {inertia:.2f}")
+
+# STEP 8: Predict cluster for new data points
+new_points = np.array([[0, 0], [10, 10], [-10, -10]])
+new_labels = kmeans.predict(new_points)
+print(f"\nNew points assigned to clusters: {new_labels}")
+
+# STEP 9: Count points in each cluster
+unique, counts = np.unique(labels, return_counts=True)
+for cluster, count in zip(unique, counts):
+    print(f"Cluster {cluster}: {count} points ({count/len(X)*100:.1f}%)")</code></pre>
+                
+                <h3>Finding Optimal Number of Clusters (Elbow Method)</h3>
+                <pre><code># STEP 1: Test different numbers of clusters
+inertias = []
+K_range = range(2, 11)  # Test K from 2 to 10
+
+print("Testing different K values...")
+for k in K_range:
+    # STEP 2: Create and fit K-Means for each K
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(X)
+    
+    # STEP 3: Store inertia
+    inertias.append(kmeans.inertia_)
+    print(f"K={k}: inertia={kmeans.inertia_:.2f}")
+
+# STEP 4: Look for the "elbow" (where inertia stops decreasing rapidly)
+print("\nLook for the 'elbow' where improvement slows down")
+print("That's your optimal K!")
+
+# STEP 5: Calculate rate of decrease
+for i in range(1, len(inertias)):
+    decrease = inertias[i-1] - inertias[i]
+    print(f"K={i+2}: Decrease = {decrease:.2f}")
+    
+# Optimal K is usually where decrease becomes much smaller</code></pre>
+                
+                <h3>Silhouette Score (Quality Metric)</h3>
+                <pre><code># STEP 1: Import silhouette_score
+from sklearn.metrics import silhouette_score
+
+# STEP 2: Calculate for different K values
+print("\nSilhouette Scores (higher = better, range: -1 to 1):")
+for k in range(2, 8):
+    # STEP 3: Fit K-Means
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = kmeans.fit_predict(X)
+    
+    # STEP 4: Calculate silhouette score
+    score = silhouette_score(X, labels)
+    print(f"K={k}: {score:.4f}")
+    
+    # STEP 5: Interpret score
+    if score > 0.7:
+        quality = "Excellent"
+    elif score > 0.5:
+        quality = "Good"
+    elif score > 0.25:
+        quality = "Fair"
+    else:
+        quality = "Poor"
+    print(f"       Quality: {quality}")</code></pre>
+                
+                <h2>2. DBSCAN (Density-Based Clustering) - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Clusters have irregular shapes, you don't know number of clusters, need to detect outliers
+                </div>
+                
+                <pre><code># STEP 1: Import DBSCAN
+from sklearn.cluster import DBSCAN
+from sklearn.datasets import make_moons
+
+# STEP 2: Create data with irregular shapes
+X, _ = make_moons(n_samples=300, noise=0.05, random_state=42)
+print(f"Data shape: {X.shape}")
+
+# STEP 3: Create DBSCAN model
+dbscan = DBSCAN(
+    eps=0.3,              # Maximum distance between points in same cluster
+    min_samples=5         # Minimum points to form a cluster
+)
+
+# STEP 4: Fit and predict
+labels = dbscan.fit_predict(X)
+
+# STEP 5: Analyze results
+n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+n_noise = list(labels).count(-1)
+
+print(f"\nNumber of clusters found: {n_clusters}")
+print(f"Number of noise points (outliers): {n_noise}")
+
+# STEP 6: Check cluster sizes
+unique, counts = np.unique(labels, return_counts=True)
+print("\nCluster sizes:")
+for cluster, count in zip(unique, counts):
+    if cluster == -1:
+        print(f"Noise: {count} points")
+    else:
+        print(f"Cluster {cluster}: {count} points")
+
+# STEP 7: Get core samples (points that form cluster cores)
+core_samples = dbscan.core_sample_indices_
+print(f"\nCore samples: {len(core_samples)}")
+
+# Note: Label -1 means noise/outlier</code></pre>
+                
+                <h3>Tuning DBSCAN Parameters</h3>
+                <pre><code># STEP 1: Test different eps values
+print("Finding optimal eps...")
+for eps in [0.1, 0.2, 0.3, 0.4, 0.5]:
+    # STEP 2: Fit DBSCAN
+    dbscan = DBSCAN(eps=eps, min_samples=5)
+    labels = dbscan.fit_predict(X)
+    
+    # STEP 3: Count clusters
+    n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+    n_noise = list(labels).count(-1)
+    
+    print(f"eps={eps}: {n_clusters} clusters, {n_noise} noise points")</code></pre>
+                
+                <h2>3. Hierarchical Clustering - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Want to see cluster hierarchy, need dendrogram visualization, small to medium datasets
+                </div>
+                
+                <pre><code># STEP 1: Import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering
+
+# STEP 2: Create data
+X, _ = make_blobs(n_samples=100, centers=4, random_state=42)
+
+# STEP 3: Create hierarchical clustering model
+hierarchical = AgglomerativeClustering(
+    n_clusters=4,         # Final number of clusters
+    linkage='ward',       # Method: 'ward', 'complete', 'average', 'single'
+    metric='euclidean'    # Distance metric
+)
+
+# STEP 4: Fit and predict
+labels = hierarchical.fit_predict(X)
+
+# STEP 5: Analyze results
+print(f"Number of clusters: {hierarchical.n_clusters_}")
+print(f"Labels: {labels[:20]}")
+
+# STEP 6: Count cluster sizes
+unique, counts = np.unique(labels, return_counts=True)
+for cluster, count in zip(unique, counts):
+    print(f"Cluster {cluster}: {count} points")
+
+# STEP 7: Try different linkage methods
+print("\nComparing linkage methods:")
+for linkage in ['ward', 'complete', 'average', 'single']:
+    model = AgglomerativeClustering(n_clusters=4, linkage=linkage)
+    labels = model.fit_predict(X)
+    score = silhouette_score(X, labels)
+    print(f"{linkage:10s}: silhouette = {score:.4f}")</code></pre>
+                
+                <h2>4. Principal Component Analysis (PCA) - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Too many features, want visualization, remove correlated features, speed up training
+                </div>
+                
+                <pre><code># STEP 1: Import PCA
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_digits
+
+# STEP 2: Load high-dimensional data
+digits = load_digits()
+X, y = digits.data, digits.target
+print(f"Original data shape: {X.shape}")  # 1797 samples, 64 features
+
+# STEP 3: Create PCA model (reduce to 2D)
+pca = PCA(n_components=2)
+
+# STEP 4: Fit and transform data
+X_reduced = pca.fit_transform(X)
+print(f"Reduced data shape: {X_reduced.shape}")  # 1797 samples, 2 features
+
+# STEP 5: Check explained variance
+explained_var = pca.explained_variance_ratio_
+print(f"\nVariance explained by each component:")
+print(f"PC1: {explained_var[0]:.2%}")
+print(f"PC2: {explained_var[1]:.2%}")
+print(f"Total: {explained_var.sum():.2%}")
+
+# STEP 6: Transform new data
+X_new = digits.data[:5]
+X_new_reduced = pca.transform(X_new)
+print(f"\nNew data transformed: {X_new_reduced.shape}")
+
+# STEP 7: Inverse transform (reconstruct approximate original)
+X_reconstructed = pca.inverse_transform(X_reduced)
+print(f"Reconstructed shape: {X_reconstructed.shape}")</code></pre>
+                
+                <h3>Choosing Number of Components</h3>
+                <pre><code># STEP 1: Find number of components for 95% variance
+pca_full = PCA()
+pca_full.fit(X)
+
+# STEP 2: Calculate cumulative variance
+cumsum = np.cumsum(pca_full.explained_variance_ratio_)
+
+# STEP 3: Find where we reach 95%
+n_components_95 = np.argmax(cumsum >= 0.95) + 1
+print(f"\nComponents needed for 95% variance: {n_components_95}")
+
+# STEP 4: Show variance by component
+print("\nVariance explained by components:")
+for i, var in enumerate(pca_full.explained_variance_ratio_[:10]):
+    cum = cumsum[i]
+    print(f"PC{i+1}: {var:.4f} (cumulative: {cum:.4f})")
+
+# STEP 5: Alternative - specify variance to keep
+pca_auto = PCA(n_components=0.95)  # Keep 95% variance
+X_auto = pca_auto.fit_transform(X)
+print(f"\nAuto components for 95% variance: {pca_auto.n_components_}")</code></pre>
+                
+                <h3>Whitening (Normalize Components)</h3>
+                <pre><code># STEP 1: PCA with whitening
+pca_whiten = PCA(n_components=10, whiten=True)
+X_whitened = pca_whiten.fit_transform(X)
+
+# STEP 2: Check that components have unit variance
+print(f"Variance of components: {X_whitened.var(axis=0)}")
+# All should be approximately 1.0
+
+print("Whitening makes all components have unit variance")</code></pre>
+                
+                <h2>5. t-SNE (Visualization) - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Visualizing high-dimensional data in 2D/3D (not for dimensionality reduction in models!)
+                </div>
+                
+                <pre><code># STEP 1: Import TSNE
+from sklearn.manifold import TSNE
+
+# STEP 2: Create t-SNE model
+tsne = TSNE(
+    n_components=2,      # 2D visualization
+    perplexity=30,       # Balance local vs global structure (5-50)
+    learning_rate=200,   # Learning rate (10-1000)
+    n_iter=1000,        # Number of iterations
+    random_state=42
+)
+
+# STEP 3: Fit and transform (warning: slow for large datasets!)
+print("Running t-SNE (may take a moment)...")
+X_tsne = tsne.fit_transform(X[:500])  # Use subset for speed
+print(f"t-SNE shape: {X_tsne.shape}")
+
+# STEP 4: Check final KL divergence (lower is better)
+print(f"Final KL divergence: {tsne.kl_divergence_:.4f}")
+
+# Note: t-SNE is only for visualization, not for ML models!
+# Use PCA for dimensionality reduction before modeling</code></pre>
+                
+                <h2>6. Gaussian Mixture Models - Step by Step</h2>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Soft clustering (probability of belonging to each cluster), clusters are elliptical
+                </div>
+                
+                <pre><code># STEP 1: Import GaussianMixture
+from sklearn.mixture import GaussianMixture
+
+# STEP 2: Create data
+X, _ = make_blobs(n_samples=300, centers=3, random_state=42)
+
+# STEP 3: Create GMM model
+gmm = GaussianMixture(
+    n_components=3,      # Number of Gaussian distributions
+    covariance_type='full',  # 'full', 'tied', 'diag', 'spherical'
+    random_state=42
+)
+
+# STEP 4: Fit model
+gmm.fit(X)
+print("✅ GMM fitted!")
+
+# STEP 5: Hard clustering (like K-Means)
+hard_labels = gmm.predict(X)
+print(f"Hard labels: {hard_labels[:10]}")
+
+# STEP 6: Soft clustering (probabilities)
+soft_labels = gmm.predict_proba(X)
+print(f"\nSoft labels (probabilities) for first sample:")
+print(soft_labels[0])
+print(f"Most likely cluster: {hard_labels[0]}")
+
+# STEP 7: Get model parameters
+means = gmm.means_
+covariances = gmm.covariances_
+weights = gmm.weights_
+
+print(f"\nCluster means:\n{means}")
+print(f"\nCluster weights: {weights}")
+
+# STEP 8: Score samples (log-likelihood)
+scores = gmm.score_samples(X[:5])
+print(f"\nLog-likelihood of samples: {scores}")
+
+# STEP 9: Use BIC/AIC to choose number of components
+n_components_range = range(2, 8)
+bics = []
+for n in n_components_range:
+    gmm = GaussianMixture(n_components=n, random_state=42)
+    gmm.fit(X)
+    bics.append(gmm.bic(X))
+    
+optimal_n = n_components_range[np.argmin(bics)]
+print(f"\nOptimal components (BIC): {optimal_n}")</code></pre>
+                
+                <h3>Clustering Comparison Guide</h3>
+                <table style="width:100%; border-collapse: collapse; margin: 10px 0;">
+                    <tr style="background: #f5793a; color: white;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Algorithm</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Best For</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Pros</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Cons</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>K-Means</strong></td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Spherical clusters, known K</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Fast, simple</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Need to specify K, assumes spherical</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>DBSCAN</strong></td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Irregular shapes, outliers</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Finds outliers, any shape</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Sensitive to parameters</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Hierarchical</strong></td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Small data, need hierarchy</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Dendrogram, no K needed</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Slow for large data</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>GMM</strong></td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Soft clustering, elliptical</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Probabilistic, flexible shapes</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">More complex, slower</td>
+                    </tr>
+                </table>
+                
+                <div class="tip">
+                    <strong>💡 Unsupervised Learning Tips:</strong>
+                    <ul>
+                        <li>Always scale your data before clustering</li>
+                        <li>Try multiple algorithms and compare results</li>
+                        <li>Use silhouette score to evaluate clustering quality</li>
+                        <li>Visualize results when possible (scatter plots)</li>
+                        <li>For high dimensions, reduce with PCA before clustering</li>
+                        <li>K-Means is good starting point (fast, simple)</li>
+                        <li>DBSCAN when you have outliers or irregular shapes</li>
+                        <li>t-SNE only for visualization, not for modeling</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="preprocessing" class="section">
+                <h2>Data Preprocessing - Complete Guide</h2>
+                
+                <h3>Why Preprocessing Matters</h3>
+                <p>Raw data is rarely ready for machine learning. Preprocessing transforms data into a format that algorithms can understand and learn from effectively.</p>
+                
+                <div class="note">
+                    <strong>⚠️ GOLDEN RULE:</strong> Always fit on training data only, then transform both train and test. Never fit on test data - this causes data leakage!
+                </div>
+                
+                <h2>1. Scaling Features - Step by Step</h2>
+                
+                <h3>StandardScaler (Most Common)</h3>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Features have different scales, using SVM/KNN/Logistic Regression/Neural Networks
+                </div>
+                <pre><code># STEP 1: Import StandardScaler
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+
+# STEP 2: Create sample data with different scales
+X_train = np.array([
+    [1, 1000, 0.5],      # Feature scales: 1s, 1000s, decimals
+    [2, 2000, 0.7],
+    [3, 1500, 0.3]
+])
+X_test = np.array([[1.5, 1800, 0.6]])
+
+print("Original data:")
+print(X_train)
+
+# STEP 3: Create scaler object
+scaler = StandardScaler()
+
+# STEP 4: Fit scaler on TRAINING data only
+# This calculates mean and std for each feature
+scaler.fit(X_train)
+
+print(f"\nLearned means: {scaler.mean_}")
+print(f"Learned stds: {scaler.scale_}")
+
+# STEP 5: Transform training data
+X_train_scaled = scaler.transform(X_train)
+
+# STEP 6: Transform test data (using training statistics!)
+X_test_scaled = scaler.transform(X_test)
+
+print(f"\nScaled training data:")
+print(X_train_scaled)
+print("(Mean ≈ 0, Std ≈ 1 for each column)")
+
+# SHORTCUT: fit_transform combines fit and transform
+X_train_scaled = scaler.fit_transform(X_train)  # Only for training!</code></pre>
+                
+                <h3>MinMaxScaler (Scale to Range)</h3>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Need values in specific range [0,1], data has no outliers
+                </div>
+                <pre><code># STEP 1: Import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler
+
+# STEP 2: Create scaler (default range is 0 to 1)
+minmax = MinMaxScaler(feature_range=(0, 1))
+
+# STEP 3: Fit and transform training data
+X_train_scaled = minmax.fit_transform(X_train)
+
+# STEP 4: Transform test data
+X_test_scaled = minmax.transform(X_test)
+
+print(f"Min values: {X_train_scaled.min(axis=0)}")  # All 0
+print(f"Max values: {X_train_scaled.max(axis=0)}")  # All 1
+
+# Custom range example
+scaler_custom = MinMaxScaler(feature_range=(-1, 1))
+X_scaled_custom = scaler_custom.fit_transform(X_train)</code></pre>
+                
+                <h3>RobustScaler (For Outliers)</h3>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Data has many outliers (uses median and IQR instead of mean)
+                </div>
+                <pre><code># STEP 1: Import RobustScaler
+from sklearn.preprocessing import RobustScaler
+
+# STEP 2: Create and fit
+robust_scaler = RobustScaler()
+X_train_robust = robust_scaler.fit_transform(X_train)
+X_test_robust = robust_scaler.transform(X_test)
+
+print("RobustScaler is less affected by outliers!")</code></pre>
+                
+                <h2>2. Encoding Categorical Variables - Step by Step</h2>
+                
+                <h3>Label Encoding (For Target Variable)</h3>
+                <pre><code># STEP 1: Import LabelEncoder
+from sklearn.preprocessing import LabelEncoder
+
+# STEP 2: Create sample categories
+y = ['cat', 'dog', 'cat', 'bird', 'dog', 'bird']
+print(f"Original labels: {y}")
+
+# STEP 3: Create encoder
+le = LabelEncoder()
+
+# STEP 4: Fit and transform
+y_encoded = le.fit_transform(y)
+print(f"Encoded labels: {y_encoded}")  # [0 1 0 2 1 2]
+
+# STEP 5: See the mapping
+print(f"Classes: {le.classes_}")  # ['bird' 'cat' 'dog']
+
+# STEP 6: Decode back to original
+y_decoded = le.inverse_transform(y_encoded)
+print(f"Decoded: {y_decoded}")
+
+# STEP 7: Transform new data
+new_labels = ['cat', 'bird']
+new_encoded = le.transform(new_labels)
+print(f"New encoded: {new_encoded}")</code></pre>
+                
+                <h3>One-Hot Encoding (For Features)</h3>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Categorical features with no ordinal relationship (color, country, etc.)
+                </div>
+                <pre><code># STEP 1: Import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+
+# STEP 2: Create categorical feature
+X_cat = np.array([
+    ['Red'],
+    ['Blue'],
+    ['Green'],
+    ['Red'],
+    ['Blue']
+])
+print(f"Original data:\n{X_cat}")
+
+# STEP 3: Create encoder
+ohe = OneHotEncoder(sparse_output=False)
+
+# STEP 4: Fit and transform
+X_encoded = ohe.fit_transform(X_cat)
+print(f"\nOne-hot encoded:\n{X_encoded}")
+# [[0 0 1]  <- Red
+#  [1 0 0]  <- Blue
+#  [0 1 0]  <- Green
+#  [0 0 1]  <- Red
+#  [1 0 0]] <- Blue
+
+# STEP 5: Get feature names
+print(f"Categories: {ohe.categories_}")
+
+# STEP 6: Encode new data
+new_data = np.array([['Green'], ['Red']])
+new_encoded = ohe.transform(new_data)
+print(f"New data encoded:\n{new_encoded}")</code></pre>
+                
+                <h3>Encoding Multiple Categorical Columns</h3>
+                <pre><code># STEP 1: Import pandas and OneHotEncoder
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+
+# STEP 2: Create DataFrame with multiple categorical columns
+df = pd.DataFrame({
+    'color': ['red', 'blue', 'green', 'red'],
+    'size': ['S', 'M', 'L', 'M'],
+    'price': [10, 20, 15, 12]
+})
+print("Original DataFrame:")
+print(df)
+
+# STEP 3: Select categorical columns
+cat_columns = ['color', 'size']
+
+# STEP 4: Create encoder
+ohe = OneHotEncoder(sparse_output=False, drop='first')  # drop first to avoid multicollinearity
+
+# STEP 5: Fit and transform
+encoded_array = ohe.fit_transform(df[cat_columns])
+
+# STEP 6: Create DataFrame with encoded features
+encoded_df = pd.DataFrame(
+    encoded_array,
+    columns=ohe.get_feature_names_out(cat_columns)
+)
+
+# STEP 7: Combine with numeric columns
+df_final = pd.concat([encoded_df, df[['price']]], axis=1)
+print("\nFinal encoded DataFrame:")
+print(df_final)</code></pre>
+                
+                <h2>3. Handling Missing Values - Step by Step</h2>
+                
+                <h3>SimpleImputer - Basic Imputation</h3>
+                <pre><code># STEP 1: Import SimpleImputer
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+# STEP 2: Create data with missing values (NaN)
+X = np.array([
+    [1, 2, 3],
+    [4, np.nan, 6],
+    [7, 8, np.nan],
+    [np.nan, 11, 12]
+])
+print("Data with missing values:")
+print(X)
+
+# STEP 3: Mean imputation (most common)
+imputer_mean = SimpleImputer(strategy='mean')
+X_imputed_mean = imputer_mean.fit_transform(X)
+print("\nMean imputation:")
+print(X_imputed_mean)
+
+# STEP 4: Median imputation (robust to outliers)
+imputer_median = SimpleImputer(strategy='median')
+X_imputed_median = imputer_median.fit_transform(X)
+print("\nMedian imputation:")
+print(X_imputed_median)
+
+# STEP 5: Most frequent (for categorical)
+imputer_mode = SimpleImputer(strategy='most_frequent')
+X_imputed_mode = imputer_mode.fit_transform(X)
+print("\nMost frequent imputation:")
+print(X_imputed_mode)
+
+# STEP 6: Constant value
+imputer_constant = SimpleImputer(strategy='constant', fill_value=0)
+X_imputed_const = imputer_constant.fit_transform(X)
+print("\nConstant (0) imputation:")
+print(X_imputed_const)</code></pre>
+                
+                <h3>KNN Imputer (Advanced)</h3>
+                <pre><code># STEP 1: Import KNNImputer
+from sklearn.impute import KNNImputer
+
+# STEP 2: Create imputer (uses nearest neighbors)
+knn_imputer = KNNImputer(n_neighbors=2)
+
+# STEP 3: Fit and transform
+X_knn_imputed = knn_imputer.fit_transform(X)
+print("KNN imputation (uses similar rows):")
+print(X_knn_imputed)</code></pre>
+                
+                <h2>4. Feature Selection - Step by Step</h2>
+                
+                <h3>SelectKBest (Univariate Selection)</h3>
+                <pre><code># STEP 1: Import libraries
+from sklearn.feature_selection import SelectKBest, f_classif, chi2
+from sklearn.datasets import load_breast_cancer
+
+# STEP 2: Load data
+data = load_breast_cancer()
+X, y = data.data, data.target
+print(f"Original features: {X.shape[1]}")
+
+# STEP 3: Select top K features using ANOVA F-test
+selector = SelectKBest(score_func=f_classif, k=10)
+
+# STEP 4: Fit selector
+selector.fit(X, y)
+
+# STEP 5: Get feature scores
+feature_scores = selector.scores_
+print(f"\nFeature scores (higher = better):")
+for i, score in enumerate(feature_scores[:5]):
+    print(f"  {data.feature_names[i]}: {score:.2f}")
+
+# STEP 6: Transform data (keep only selected features)
+X_selected = selector.transform(X)
+print(f"\nSelected features: {X_selected.shape[1]}")
+
+# STEP 7: Get selected feature names
+selected_mask = selector.get_support()
+selected_features = [data.feature_names[i] for i, selected in enumerate(selected_mask) if selected]
+print(f"Selected feature names: {selected_features[:5]}...")</code></pre>
+                
+                <h3>Feature Importance from Models</h3>
+                <pre><code># STEP 1: Import RandomForest
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+
+# STEP 2: Train model
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X, y)
+
+# STEP 3: Get feature importances
+importances = rf.feature_importances_
+
+# STEP 4: Sort features by importance
+indices = np.argsort(importances)[::-1]
+
+# STEP 5: Display top 5 features
+print("\nTop 5 most important features:")
+for i in range(5):
+    idx = indices[i]
+    print(f"{i+1}. {data.feature_names[idx]}: {importances[idx]:.4f}")
+
+# STEP 6: Select features above threshold
+threshold = 0.01
+selected_features = X[:, importances > threshold]
+print(f"\nFeatures above {threshold} threshold: {selected_features.shape[1]}")</code></pre>
+                
+                <h2>5. Feature Engineering - Step by Step</h2>
+                
+                <h3>Polynomial Features</h3>
+                <pre><code># STEP 1: Import PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+
+# STEP 2: Create simple data
+X = np.array([[2, 3], [4, 5]])
+print("Original features:")
+print(X)
+print(f"Shape: {X.shape}")  # 2 samples, 2 features
+
+# STEP 3: Create polynomial features (degree=2)
+poly = PolynomialFeatures(degree=2, include_bias=False)
+
+# STEP 4: Transform data
+X_poly = poly.fit_transform(X)
+print("\nPolynomial features (degree=2):")
+print(X_poly)
+print(f"Shape: {X_poly.shape}")  # 2 samples, 5 features
+
+# STEP 5: Get feature names
+print(f"Feature names: {poly.get_feature_names_out()}")
+# ['x0', 'x1', 'x0^2', 'x0 x1', 'x1^2']
+
+# Example: [2, 3] becomes [2, 3, 4, 6, 9]
+#          [x0, x1] -> [x0, x1, x0², x0*x1, x1²]</code></pre>
+                
+                <h3>Interaction Features</h3>
+                <pre><code># STEP 1: Create only interaction features
+poly_interact = PolynomialFeatures(
+    degree=2, 
+    interaction_only=True,  # Only interactions, no powers
+    include_bias=False
+)
+
+# STEP 2: Transform
+X_interact = poly_interact.fit_transform(X)
+print("Interaction features only:")
+print(X_interact)
+print(f"Feature names: {poly_interact.get_feature_names_out()}")</code></pre>
+                
+                <h3>Creating Custom Features</h3>
+                <pre><code># STEP 1: Import FunctionTransformer
+from sklearn.preprocessing import FunctionTransformer
+import numpy as np
+
+# STEP 2: Define custom transformation function
+def log_transform(X):
+    return np.log1p(X)  # log(1 + X) to handle zeros
+
+# STEP 3: Create transformer
+log_transformer = FunctionTransformer(log_transform)
+
+# STEP 4: Apply transformation
+X_sample = np.array([[1, 10], [2, 20], [3, 30]])
+X_log = log_transformer.fit_transform(X_sample)
+print("Original:")
+print(X_sample)
+print("\nLog transformed:")
+print(X_log)</code></pre>
+                
+                <h2>6. Complete Preprocessing Pipeline</h2>
+                <pre><code># STEP 1: Import everything needed
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+import numpy as np
+
+# STEP 2: Create sample mixed data
+df = pd.DataFrame({
+    'age': [25, np.nan, 35, 28, 45],
+    'salary': [50000, 60000, np.nan, 55000, 80000],
+    'city': ['NY', 'LA', 'NY', 'SF', 'LA'],
+    'bought': [1, 0, 1, 0, 1]  # Target
+})
+
+# STEP 3: Separate features and target
+X = df.drop('bought', axis=1)
+y = df['bought']
+
+# STEP 4: Define numeric and categorical columns
+numeric_features = ['age', 'salary']
+categorical_features = ['city']
+
+# STEP 5: Create preprocessing for numeric data
+numeric_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+# STEP 6: Create preprocessing for categorical data
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# STEP 7: Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+# STEP 8: Create complete pipeline with model
+full_pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', RandomForestClassifier(random_state=42))
+])
+
+# STEP 9: Train the complete pipeline
+full_pipeline.fit(X, y)
+print("✅ Pipeline trained successfully!")
+
+# STEP 10: Make predictions (preprocessing happens automatically!)
+new_data = pd.DataFrame({
+    'age': [30],
+    'salary': [65000],
+    'city': ['NY']
+})
+prediction = full_pipeline.predict(new_data)
+print(f"Prediction: {prediction[0]}")</code></pre>
+                
+                <div class="tip">
+                    <strong>💡 Preprocessing Checklist:</strong>
+                    <ul>
+                        <li>✓ Handle missing values first</li>
+                        <li>✓ Encode categorical variables</li>
+                        <li>✓ Scale features (for distance-based models)</li>
+                        <li>✓ Create polynomial/interaction features (if needed)</li>
+                        <li>✓ Select important features (optional)</li>
+                        <li>✓ Always fit on training data only!</li>
+                        <li>✓ Use pipelines to prevent data leakage</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="evaluation" class="section">
+                <h2>Model Evaluation - Complete Guide</h2>
+                
+                <h3>Why Evaluation Matters</h3>
+                <p>A model is only as good as we can measure. Different metrics tell us different things about our model's performance.</p>
+                
+                <h2>Classification Metrics - Step by Step</h2>
+                
+                <h3>1. Accuracy Score</h3>
+                <div class="note">
+                    <strong>📝 Use When:</strong> Balanced datasets. Accuracy = (Correct Predictions) / (Total Predictions)
+                </div>
+                <pre><code># STEP 1: Import accuracy_score
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+# STEP 2: Create sample predictions
+y_true = np.array([1, 0, 1, 1, 0, 1, 0, 0])
+y_pred = np.array([1, 0, 1, 0, 0, 1, 0, 1])
+
+# STEP 3: Calculate accuracy
+accuracy = accuracy_score(y_true, y_pred)
+print(f"Accuracy: {accuracy:.2%}")  # 75.00%
+
+# STEP 4: Calculate manually
+correct = sum(y_true == y_pred)
+total = len(y_true)
+manual_accuracy = correct / total
+print(f"Manual calculation: {manual_accuracy:.2%}")
+
+# STEP 5: With sample_weight (if some samples are more important)
+weights = np.array([1, 1, 2, 1, 1, 2, 1, 1])  # Give more weight to some samples
+weighted_acc = accuracy_score(y_true, y_pred, sample_weight=weights)
+print(f"Weighted accuracy: {weighted_acc:.2%}")</code></pre>
+                
+                <h3>2. Precision, Recall, F1-Score</h3>
+                <div class="note">
+                    <strong>📝 Understanding:</strong><br>
+                    • Precision: Of all predicted positive, how many are actually positive? (Quality)<br>
+                    • Recall: Of all actual positive, how many did we catch? (Quantity)<br>
+                    • F1: Harmonic mean of precision and recall (Balance)
+                </div>
+                <pre><code># STEP 1: Import metrics
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# STEP 2: Calculate precision
+precision = precision_score(y_true, y_pred)
+print(f"Precision: {precision:.2%}")
+print("(Of predicted positive, how many are correct?)")
+
+# STEP 3: Calculate recall (also called sensitivity)
+recall = recall_score(y_true, y_pred)
+print(f"\nRecall: {recall:.2%}")
+print("(Of actual positive, how many did we find?)")
+
+# STEP 4: Calculate F1-score
+f1 = f1_score(y_true, y_pred)
+print(f"\nF1-Score: {f1:.2%}")
+print("(Balance between precision and recall)")
+
+# STEP 5: For multi-class problems
+y_true_multi = [0, 1, 2, 0, 1, 2, 0, 1]
+y_pred_multi = [0, 2, 1, 0, 1, 2, 0, 2]
+
+# Use 'weighted' for multi-class
+precision_multi = precision_score(y_true_multi, y_pred_multi, average='weighted')
+recall_multi = recall_score(y_true_multi, y_pred_multi, average='weighted')
+f1_multi = f1_score(y_true_multi, y_pred_multi, average='weighted')
+
+print(f"\nMulti-class Precision: {precision_multi:.2%}")
+print(f"Multi-class Recall: {recall_multi:.2%}")
+print(f"Multi-class F1-Score: {f1_multi:.2%}")
+
+# Other averaging options:
+# 'micro' - Calculate globally
+# 'macro' - Calculate for each class, then average (unweighted)
+# 'weighted' - Calculate for each class, then weighted average
+# None - Return scores for each class</code></pre>
+                
+                <h3>3. Confusion Matrix</h3>
+                <pre><code># STEP 1: Import confusion matrix
+from sklearn.metrics import confusion_matrix
+import numpy as np
+
+# STEP 2: Create confusion matrix
+cm = confusion_matrix(y_true, y_pred)
+print("Confusion Matrix:")
+print(cm)
+print("\nStructure:")
+print("[[TN  FP]")
+print(" [FN  TP]]")
+
+# STEP 3: Extract values
+tn, fp, fn, tp = cm.ravel()
+print(f"\nTrue Negatives: {tn}")
+print(f"False Positives: {fp}")
+print(f"False Negatives: {fn}")
+print(f"True Positives: {tp}")
+
+# STEP 4: Calculate metrics from confusion matrix
+precision_manual = tp / (tp + fp)
+recall_manual = tp / (tp + fn)
+accuracy_manual = (tp + tn) / (tp + tn + fp + fn)
+
+print(f"\nFrom confusion matrix:")
+print(f"Precision: {precision_manual:.2%}")
+print(f"Recall: {recall_manual:.2%}")
+print(f"Accuracy: {accuracy_manual:.2%}")
+
+# STEP 5: Visualize confusion matrix (pseudo-code)
+print("\nVisualization:")
+print(f"     Predicted")
+print(f"      0    1")
+print(f"   0 {tn:3d}  {fp:3d}")
+print(f"A  1 {fn:3d}  {tp:3d}")
+print(f"c")
+print(f"t")
+print(f"u")
+print(f"a")
+print(f"l")</code></pre>
+                
+                <h3>4. Classification Report (All-in-One)</h3>
+                <pre><code># STEP 1: Import classification_report
+from sklearn.metrics import classification_report
+
+# STEP 2: Generate complete report
+report = classification_report(y_true, y_pred)
+print("Classification Report:")
+print(report)
+
+# STEP 3: Get report as dictionary
+report_dict = classification_report(y_true, y_pred, output_dict=True)
+
+# STEP 4: Access specific metrics
+print(f"\nClass 0 precision: {report_dict['0']['precision']:.2%}")
+print(f"Class 1 recall: {report_dict['1']['recall']:.2%}")
+print(f"Overall accuracy: {report_dict['accuracy']:.2%}")
+
+# STEP 5: With class names (more readable)
+class_names = ['Not Cancer', 'Cancer']
+report_named = classification_report(
+    y_true, y_pred, 
+    target_names=class_names
+)
+print("\nNamed Report:")
+print(report_named)</code></pre>
+                
+                <h3>5. ROC Curve & AUC Score</h3>
+                <div class="note">
+                    <strong>📝 Understanding:</strong> ROC curve shows trade-off between True Positive Rate and False Positive Rate. AUC (Area Under Curve) summarizes performance: 1.0 = perfect, 0.5 = random
+                </div>
+                <pre><code># STEP 1: Import ROC metrics
+from sklearn.metrics import roc_curve, roc_auc_score, auc
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# STEP 2: Load and prepare data
+data = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.2, random_state=42
+)
+
+# STEP 3: Train model
+model = LogisticRegression(max_iter=10000)
+model.fit(X_train, y_train)
+
+# STEP 4: Get probability predictions (important!)
+y_proba = model.predict_proba(X_test)[:, 1]  # Probability of class 1
+
+# STEP 5: Calculate ROC curve
+fpr, tpr, thresholds = roc_curve(y_test, y_proba)
+print(f"False Positive Rates: {fpr[:5]}")
+print(f"True Positive Rates: {tpr[:5]}")
+print(f"Thresholds: {thresholds[:5]}")
+
+# STEP 6: Calculate AUC score
+auc_score = roc_auc_score(y_test, y_proba)
+print(f"\nAUC Score: {auc_score:.4f}")
+
+# Interpretation:
+if auc_score > 0.9:
+    print("Excellent model!")
+elif auc_score > 0.8:
+    print("Good model")
+elif auc_score > 0.7:
+    print("Fair model")
+else:
+    print("Poor model")
+
+# STEP 7: Find optimal threshold
+optimal_idx = np.argmax(tpr - fpr)
+optimal_threshold = thresholds[optimal_idx]
+print(f"\nOptimal threshold: {optimal_threshold:.4f}")</code></pre>
+                
+                <h2>Regression Metrics - Step by Step</h2>
+                
+                <h3>1. Mean Absolute Error (MAE)</h3>
+                <div class="note">
+                    <strong>📝 Understanding:</strong> Average absolute difference between predictions and actual values. Easy to interpret!
+                </div>
+                <pre><code># STEP 1: Import MAE
+from sklearn.metrics import mean_absolute_error
+import numpy as np
+
+# STEP 2: Create sample data
+y_true = np.array([100, 150, 200, 250, 300])
+y_pred = np.array([110, 140, 210, 240, 290])
+
+# STEP 3: Calculate MAE
+mae = mean_absolute_error(y_true, y_pred)
+print(f"MAE: {mae:.2f}")
+print(f"Average error: ${mae:.2f} off")
+
+# STEP 4: Calculate manually
+manual_mae = np.mean(np.abs(y_true - y_pred))
+print(f"Manual MAE: {manual_mae:.2f}")
+
+# STEP 5: Understand the errors
+errors = np.abs(y_true - y_pred)
+print(f"\nIndividual errors: {errors}")
+print(f"Mean of errors: {errors.mean():.2f}")</code></pre>
+                
+                <h3>2. Mean Squared Error (MSE) & RMSE</h3>
+                <div class="note">
+                    <strong>📝 Understanding:</strong> MSE penalizes large errors more. RMSE is in same units as target (more interpretable).
+                </div>
+                <pre><code># STEP 1: Import MSE
+from sklearn.metrics import mean_squared_error
+
+# STEP 2: Calculate MSE
+mse = mean_squared_error(y_true, y_pred)
+print(f"MSE: {mse:.2f}")
+
+# STEP 3: Calculate RMSE (Root MSE)
+rmse = mean_squared_error(y_true, y_pred, squared=False)
+print(f"RMSE: {rmse:.2f}")
+# Or manually: rmse = np.sqrt(mse)
+
+# STEP 4: Calculate manually
+squared_errors = (y_true - y_pred) ** 2
+manual_mse = np.mean(squared_errors)
+manual_rmse = np.sqrt(manual_mse)
+print(f"\nManual MSE: {manual_mse:.2f}")
+print(f"Manual RMSE: {manual_rmse:.2f}")
+
+# STEP 5: Compare MAE vs RMSE
+print(f"\nMAE: {mae:.2f}")
+print(f"RMSE: {rmse:.2f}")
+print("RMSE > MAE when there are large errors (outliers)")</code></pre>
+                
+                <h3>3. R² Score (Coefficient of Determination)</h3>
+                <div class="note">
+                    <strong>📝 Understanding:</strong> How much variance in target is explained by model. 1.0 = perfect, 0.0 = as good as mean, negative = worse than mean
+                </div>
+                <pre><code># STEP 1: Import R² score
+from sklearn.metrics import r2_score
+
+# STEP 2: Calculate R²
+r2 = r2_score(y_true, y_pred)
+print(f"R² Score: {r2:.4f}")
+
+# STEP 3: Interpret R²
+print(f"\nModel explains {r2*100:.2f}% of variance")
+
+if r2 > 0.9:
+    print("Excellent fit!")
+elif r2 > 0.7:
+    print("Good fit")
+elif r2 > 0.5:
+    print("Moderate fit")
+elif r2 > 0:
+    print("Poor fit")
+else:
+    print("Model is worse than just predicting the mean!")
+
+# STEP 4: Calculate manually
+ss_res = np.sum((y_true - y_pred) ** 2)  # Residual sum of squares
+ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)  # Total sum of squares
+manual_r2 = 1 - (ss_res / ss_tot)
+print(f"\nManual R²: {manual_r2:.4f}")
+
+# STEP 5: Understand components
+print(f"\nResidual sum of squares: {ss_res:.2f}")
+print(f"Total sum of squares: {ss_tot:.2f}")
+print(f"Ratio: {ss_res/ss_tot:.4f}")
+print(f"R² = 1 - ratio = {manual_r2:.4f}")</code></pre>
+                
+                <h3>4. Mean Absolute Percentage Error (MAPE)</h3>
+                <pre><code># STEP 1: Import MAPE
+from sklearn.metrics import mean_absolute_percentage_error
+
+# STEP 2: Calculate MAPE
+mape = mean_absolute_percentage_error(y_true, y_pred)
+print(f"MAPE: {mape:.2%}")
+print(f"Average error: {mape*100:.2f}% off")
+
+# STEP 3: Calculate manually
+manual_mape = np.mean(np.abs((y_true - y_pred) / y_true))
+print(f"Manual MAPE: {manual_mape:.2%}")
+
+# Warning: MAPE fails when y_true has zeros!</code></pre>
+                
+                <h2>Cross-Validation - Step by Step</h2>
+                
+                <h3>K-Fold Cross-Validation</h3>
+                <pre><code># STEP 1: Import cross_val_score
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+# STEP 2: Load data
+iris = load_iris()
+X, y = iris.data, iris.target
+
+# STEP 3: Create model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# STEP 4: Perform 5-fold cross-validation
+scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+
+# STEP 5: Analyze results
+print(f"Cross-validation scores: {scores}")
+print(f"Mean accuracy: {scores.mean():.2%}")
+print(f"Standard deviation: {scores.std():.4f}")
+print(f"95% confidence interval: {scores.mean():.2%} (+/- {scores.std()*2:.2%})")
+
+# STEP 6: Try different number of folds
+cv_3_scores = cross_val_score(model, X, y, cv=3)
+cv_10_scores = cross_val_score(model, X, y, cv=10)
+
+print(f"\n3-Fold mean: {cv_3_scores.mean():.2%}")
+print(f"5-Fold mean: {scores.mean():.2%}")
+print(f"10-Fold mean: {cv_10_scores.mean():.2%}")
+
+# More folds = more accurate estimate, but slower</code></pre>
+                
+                <h3>Stratified K-Fold (For Imbalanced Data)</h3>
+                <pre><code># STEP 1: Import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+
+# STEP 2: Create stratified k-fold
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# STEP 3: Perform cross-validation with stratification
+scores = cross_val_score(model, X, y, cv=skf, scoring='accuracy')
+
+print(f"Stratified CV scores: {scores}")
+print(f"Mean: {scores.mean():.2%}")
+print("(Each fold has same class distribution as original data)")</code></pre>
+                
+                <h3>Multiple Metrics in Cross-Validation</h3>
+                <pre><code># STEP 1: Import cross_validate (note: not cross_val_score)
+from sklearn.model_selection import cross_validate
+
+# STEP 2: Define multiple metrics
+scoring = {
+    'accuracy': 'accuracy',
+    'precision': 'precision_weighted',
+    'recall': 'recall_weighted',
+    'f1': 'f1_weighted'
+}
+
+# STEP 3: Perform cross-validation with multiple metrics
+cv_results = cross_validate(
+    model, X, y, 
+    cv=5, 
+    scoring=scoring,
+    return_train_score=True
+)
+
+# STEP 4: Analyze all metrics
+print("Cross-Validation Results:")
+for metric in ['accuracy', 'precision', 'recall', 'f1']:
+    test_scores = cv_results[f'test_{metric}']
+    print(f"{metric.capitalize()}: {test_scores.mean():.2%} (+/- {test_scores.std():.4f})")
+
+# STEP 5: Check for overfitting
+print("\nOverfitting Check:")
+for metric in ['accuracy', 'f1']:
+    train_mean = cv_results[f'train_{metric}'].mean()
+    test_mean = cv_results[f'test_{metric}'].mean()
+    gap = train_mean - test_mean
+    print(f"{metric}: Train={train_mean:.2%}, Test={test_mean:.2%}, Gap={gap:.2%}")
+    if gap > 0.1:
+        print(f"  ⚠️ Possible overfitting!")
+    else:
+        print(f"  ✅ Good generalization")</code></pre>
+                
+                <h2>Hyperparameter Tuning - Step by Step</h2>
+                
+                <h3>Grid Search (Exhaustive Search)</h3>
+                <pre><code># STEP 1: Import GridSearchCV
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
+# STEP 2: Define parameter grid
+param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [5, 10, 15, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
+
+print(f"Testing {3*4*3*3} = 108 combinations")
+
+# STEP 3: Create GridSearchCV object
+grid_search = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_grid,
+    cv=5,                    # 5-fold cross-validation
+    scoring='accuracy',
+    n_jobs=-1,              # Use all CPU cores
+    verbose=1               # Show progress
+)
+
+# STEP 4: Fit (this will take time!)
+print("\nSearching... (may take a few minutes)")
+grid_search.fit(X, y)
+
+# STEP 5: Get best parameters
+print(f"\nBest parameters: {grid_search.best_params_}")
+print(f"Best cross-validation score: {grid_search.best_score_:.2%}")
+
+# STEP 6: Get best model
+best_model = grid_search.best_estimator_
+
+# STEP 7: See all results
+results_df = pd.DataFrame(grid_search.cv_results_)
+print(f"\nTop 5 parameter combinations:")
+top5 = results_df.nsmallest(5, 'rank_test_score')[
+    ['params', 'mean_test_score', 'std_test_score']
+]
+print(top5)</code></pre>
+                
+                <h3>Randomized Search (Faster Alternative)</h3>
+                <pre><code># STEP 1: Import RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
+
+# STEP 2: Define parameter distributions
+param_distributions = {
+    'n_estimators': randint(50, 500),
+    'max_depth': [5, 10, 15, 20, None],
+    'min_samples_split': randint(2, 20),
+    'min_samples_leaf': randint(1, 10)
+}
+
+# STEP 3: Create RandomizedSearchCV
+random_search = RandomizedSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_distributions,
+    n_iter=20,              # Try 20 random combinations
+    cv=5,
+    scoring='accuracy',
+    n_jobs=-1,
+    random_state=42
+)
+
+# STEP 4: Fit (much faster than GridSearch!)
+print("Randomized search (20 iterations)...")
+random_search.fit(X, y)
+
+# STEP 5: Get results
+print(f"\nBest parameters: {random_search.best_params_}")
+print(f"Best score: {random_search.best_score_:.2%}")
+
+print("\n💡 RandomizedSearch is faster and often finds good parameters!")</code></pre>
+                
+                <div class="tip">
+                    <strong>Choosing the Right Metric:</strong>
+                    <ul>
+                        <li><strong>Accuracy:</strong> Balanced datasets, all errors equally bad</li>
+                        <li><strong>Precision:</strong> False positives are costly (spam detection)</li>
+                        <li><strong>Recall:</strong> False negatives are costly (disease detection)</li>
+                        <li><strong>F1-Score:</strong> Balance precision and recall</li>
+                        <li><strong>AUC-ROC:</strong> Overall classification performance</li>
+                        <li><strong>MAE:</strong> Regression, easy interpretation</li>
+                        <li><strong>RMSE:</strong> Regression, penalize large errors</li>
+                        <li><strong>R²:</strong> Regression, overall fit quality</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="tips" class="section">
+                <h2>Best Practices & Pro Tips</h2>
+                
+                <h3>Complete ML Workflow - Step by Step</h3>
+                <ol>
+                    <li><strong>Step 1: Understand Your Problem</strong> - Classification or Regression? What are you predicting?</li>
+                    <li><strong>Step 2: Collect and Load Data</strong> - Use pandas for CSV files, sklearn.datasets for practice</li>
+                    <li><strong>Step 3: Explore Your Data (EDA)</strong> - Check shapes, dtypes, missing values, distributions</li>
+                    <li><strong>Step 4: Clean Your Data</strong> - Handle missing values, remove duplicates, fix errors</li>
+                    <li><strong>Step 5: Feature Engineering</strong> - Create new features, encode categories, select important features</li>
+                    <li><strong>Step 6: Split Your Data</strong> - Train/test split (and validation set if needed)</li>
+                    <li><strong>Step 7: Preprocess</strong> - Scale features, encode labels (fit on train only!)</li>
+                    <li><strong>Step 8: Choose Models</strong> - Start simple, try 2-3 different algorithms</li>
+                    <li><strong>Step 9: Train Models</strong> - Fit each model on training data</li>
+                    <li><strong>Step 10: Evaluate</strong> - Test on test set, compare models</li>
+                    <li><strong>Step 11: Tune Hyperparameters</strong> - Grid search or random search on best model</li>
+                    <li><strong>Step 12: Final Evaluation</strong> - Test final model on holdout/validation set</li>
+                    <li><strong>Step 13: Save Model</strong> - Use joblib to save for later use</li>
+                </ol>
+                
+                <h3>Common Mistakes to Avoid</h3>
+                
+                <div class="tip">
+                    <strong>⚠️ Mistake 1: Data Leakage</strong>
+                    <pre><code># ❌ WRONG - Fitting on entire dataset
+scaler = StandardScaler()
+X_scaled = scaler.fit(X)  # Leakage!
+X_train, X_test = train_test_split(X_scaled)
+
+# ✅ CORRECT - Fit only on training data
+X_train, X_test = train_test_split(X)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)  # Use same scaler</code></pre>
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Mistake 2: Not Setting random_state</strong>
+                    <pre><code># ❌ WRONG - Results change every run
+X_train, X_test = train_test_split(X, y)
+model = RandomForestClassifier()
+
+# ✅ CORRECT - Reproducible results
+X_train, X_test = train_test_split(X, y, random_state=42)
+model = RandomForestClassifier(random_state=42)</code></pre>
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Mistake 3: Overfitting</strong>
+                    <pre><code># ❌ Signs of overfitting
+Training accuracy: 99%
+Testing accuracy: 65%  # Much lower!
+
+# ✅ Solutions
+# 1. Use simpler model
+model = DecisionTreeClassifier(max_depth=5)
+
+# 2. Add regularization
+model = Ridge(alpha=1.0)
+
+# 3. Get more data
+# 4. Use cross-validation
+# 5. Reduce features</code></pre>
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Mistake 4: Ignoring Imbalanced Data</strong>
+                    <pre><code># Problem: 95% class 0, 5% class 1
+# Accuracy = 95% by just predicting class 0!
+
+# ✅ Solutions
+# 1. Use stratified split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, stratify=y, random_state=42
+)
+
+# 2. Use appropriate metrics (not accuracy)
+from sklearn.metrics import f1_score, precision_score, recall_score
+
+# 3. Use class weights
+model = RandomForestClassifier(class_weight='balanced')
+
+# 4. Resample data
+from imblearn.over_sampling import SMOTE  # External library</code></pre>
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Mistake 5: Not Scaling for Distance-Based Models</strong>
+                    <pre><code># Models that NEED scaling:
+# - KNN, SVM, Logistic Regression, Neural Networks
+
+# ❌ WRONG
+model = KNeighborsClassifier()
+model.fit(X_train, y_train)  # Features on different scales!
+
+# ✅ CORRECT
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+model = KNeighborsClassifier()
+model.fit(X_train_scaled, y_train)
+
+# Models that DON'T need scaling:
+# - Decision Trees, Random Forest, Gradient Boosting</code></pre>
+                </div>
+                
+                <h3>Performance Optimization Tips</h3>
+                
+                <h3>1. Use Pipelines to Prevent Errors</h3>
+                <pre><code># STEP 1: Import Pipeline
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+
+# STEP 2: Create pipeline
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),    # First step
+    ('classifier', SVC())             # Second step
+])
+
+# STEP 3: Train (automatically scales then trains)
+pipeline.fit(X_train, y_train)
+
+# STEP 4: Predict (automatically scales then predicts)
+predictions = pipeline.predict(X_test)
+
+# Benefits:
+# - No data leakage
+# - Cleaner code
+# - Easy to save/load
+# - Works with GridSearchCV</code></pre>
+                
+                <h3>2. Speed Up Training</h3>
+                <pre><code># Use parallel processing
+model = RandomForestClassifier(
+    n_jobs=-1  # Use all CPU cores
+)
+
+# Reduce data size for testing
+X_small = X[:1000]  # Use first 1000 samples
+
+# Use simpler models first
+# Fast: Logistic Regression, Naive Bayes
+# Slow: SVM with RBF kernel, Deep trees</code></pre>
+                
+                <h3>3. Save and Load Models</h3>
+                <pre><code># STEP 1: Import joblib
+import joblib
+
+# STEP 2: Train and save
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+joblib.dump(model, 'my_model.pkl')
+print("✅ Model saved!")
+
+# STEP 3: Load later
+loaded_model = joblib.load('my_model.pkl')
+predictions = loaded_model.predict(X_test)
+
+# Also save preprocessing steps
+joblib.dump(scaler, 'scaler.pkl')</code></pre>
+                
+                <h3>Model Selection Guide</h3>
+                <table style="width:100%; border-collapse: collapse; margin: 10px 0;">
+                    <tr style="background: #f5793a; color: white;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Situation</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Best Algorithm</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Small dataset (< 1000 samples)</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">KNN, SVM, Naive Bayes</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Large dataset (> 100k samples)</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Linear models, SGD</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Need interpretability</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Decision Tree, Linear Regression</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Need highest accuracy</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Random Forest, Gradient Boosting</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Text classification</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Naive Bayes, Linear SVM</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Non-linear patterns</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">SVM (RBF), Random Forest</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Many features (> 100)</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Lasso, Random Forest</td>
+                    </tr>
+                </table>
+                
+                <h3>Debugging Checklist</h3>
+                <pre><code># When your model isn't working, check:
+
+# 1. Data shape
+print(f"X shape: {X.shape}")
+print(f"y shape: {y.shape}")
+
+# 2. Data types
+print(X.dtypes)
+
+# 3. Missing values
+print(f"Missing: {X.isnull().sum()}")
+
+# 4. Class distribution
+from collections import Counter
+print(Counter(y))
+
+# 5. Feature scales
+print(X.describe())
+
+# 6. Train vs test size
+print(f"Train: {len(X_train)}, Test: {len(X_test)}")
+
+# 7. Model parameters
+print(model.get_params())
+
+# 8. Predictions distribution
+print(Counter(predictions))</code></pre>
+                
+                <h3>Useful Resources</h3>
+                <ul>
+                    <li>📚 <strong>Official Documentation:</strong> scikit-learn.org/stable/</li>
+                    <li>🎯 <strong>Algorithm Cheat Sheet:</strong> Choose right algorithm visually</li>
+                    <li>💻 <strong>Example Gallery:</strong> 100+ working code examples</li>
+                    <li>📖 <strong>User Guide:</strong> Detailed explanations of concepts</li>
+                    <li>🔬 <strong>API Reference:</strong> Complete function documentation</li>
+                    <li>❓ <strong>FAQ:</strong> Common questions answered</li>
+                </ul>
+                
+                <h3>Next Steps</h3>
+                <ol>
+                    <li>Practice with built-in datasets (iris, digits, wine)</li>
+                    <li>Try Kaggle competitions (start with "Getting Started" ones)</li>
+                    <li>Work with your own data (CSV files)</li>
+                    <li>Learn pandas for data manipulation</li>
+                    <li>Learn matplotlib/seaborn for visualization</li>
+                    <li>Explore ensemble methods (stacking, voting)</li>
+                    <li>Learn hyperparameter tuning (GridSearchCV, RandomizedSearchCV)</li>
+                    <li>Study feature engineering techniques</li>
+                </ol>
+                
+                <div class="note">
+                    <strong>🎯 Remember:</strong> Machine learning is 80% data preparation and 20% modeling. Focus on understanding your data first!
+                </div>
+                
+                <div class="tip">
+                    <strong>💡 Final Pro Tip:</strong> Always start simple! A simple model that works is better than a complex model that doesn't. You can always increase complexity later.
+                </div>
+            </div>
+                <h2>Best Practices & Tips</h2>
+                
+                <h3>Workflow Checklist</h3>
+                <ol>
+                    <li>Load and explore your data</li>
+                    <li>Split into train/test sets</li>
+                    <li>Preprocess data (scale, encode, etc.)</li>
+                    <li>Choose and train model</li>
+                    <li>Make predictions</li>
+                    <li>Evaluate performance</li>
+                    <li>Tune hyperparameters</li>
+                    <li>Test on validation set</li>
+                </ol>
+                
+                <h3>Common Pitfalls</h3>
+                <div class="tip">
+                    <strong>⚠️ Data Leakage:</strong> Never fit preprocessing on entire dataset. Fit on training data only.
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Overfitting:</strong> Use cross-validation and regularization. Keep models simple.
+                </div>
+                
+                <div class="tip">
+                    <strong>⚠️ Imbalanced Data:</strong> Use stratified splits and appropriate metrics (F1, precision, recall).
+                </div>
+                
+                <h3>Quick Tips</h3>
+                <ul>
+                    <li>Always set <code>random_state</code> for reproducibility</li>
+                    <li>Start with simple models before trying complex ones</li>
+                    <li>Use pipelines to prevent data leakage</li>
+                    <li>Scale features for distance-based algorithms</li>
+                    <li>Check for missing values and outliers</li>
+                    <li>Visualize your data before modeling</li>
+                </ul>
+                
+                <h3>Pipeline Example</h3>
+                <pre><code>from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+
+# Create pipeline
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('classifier', SVC())
+])
+
+# Train (automatically scales then classifies)
+pipeline.fit(X_train, y_train)
+
+# Predict (automatically scales then predicts)
+predictions = pipeline.predict(X_test)</code></pre>
+                
+                <h3>Saving Models</h3>
+                <pre><code>import joblib
+
+# Save model
+joblib.dump(model, 'my_model.pkl')
+
+# Load model
+loaded_model = joblib.load('my_model.pkl')
+predictions = loaded_model.predict(X_test)</code></pre>
+                
+                <h3>Useful Resources</h3>
+                <ul>
+                    <li>Official docs: scikit-learn.org</li>
+                    <li>Algorithm cheat sheet in documentation</li>
+                    <li>User guide for detailed explanations</li>
+                    <li>Example gallery for code samples</li>
+                </ul>
+                
+                <div class="note">
+                    <strong>🎯 Remember:</strong> Machine learning is iterative. Experiment with different algorithms, features, and parameters to find what works best for your data.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Scroll to top of content
+            document.querySelector('.content').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
